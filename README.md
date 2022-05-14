@@ -6,4 +6,6 @@ This is the first website I have ever built from scratch on my own. The idea is 
 
 Progress log:
 
-5/14/2022 - Created the initial website with a simple, incomplete calendar using grid
+    5/14/2022:
+        - Created the initial website with a simple, incomplete calendar using grid
+        - Calendar divided into cells to resemble how the original calendar's division

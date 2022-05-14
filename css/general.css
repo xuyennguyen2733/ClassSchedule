@@ -1,0 +1,91 @@
+body {
+  font-family: sans-serif;
+}
+
+.container {
+  background-color: antiquewhite;
+
+  /* GRID */
+  display: grid;
+  grid-template-columns: 1fr 5fr;
+  grid-template-rows: 1fr 40fr;
+}
+
+.header {
+  background-color: aquamarine;
+}
+
+.content {
+  background-color: blueviolet;
+}
+
+.weekday {
+  /* GRID */
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+
+  /* ITEM ALIGNMENT */
+  justify-items: center;
+}
+
+.hour {
+  /* GRID */
+  display: grid;
+  grid-template-rows: repeat(10, 1fr);
+}
+
+.hour > div {
+  /* GRID */
+  display: grid;
+  /* ITEM ALIGNMENT */
+  justify-items: center;
+}
+
+.hour > div:nth-child(odd) {
+  background-color: blue;
+}
+
+.hour > div:nth-child(even) {
+  background-color: blueviolet;
+}
+
+.course {
+  /* GRID */
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+}
+
+.mon-col,
+.tue-col,
+.wed-col,
+.thu-col,
+.fri-col {
+  display: grid;
+  grid-template-rows: repeat(40, 1fr);
+}
+
+.mon-col > div:nth-child(odd),
+.tue-col > div:nth-child(odd),
+.wed-col > div:nth-child(odd),
+.thu-col > div:nth-child(odd),
+.fri-col > div:nth-child(odd) {
+  background-color: brown;
+}
+
+.mon-col > div:nth-child(even),
+.tue-col > div:nth-child(even),
+.wed-col > div:nth-child(even),
+.thu-col > div:nth-child(even),
+.fri-col > div:nth-child(even) {
+  background-color: violet;
+}
+
+.time {
+  background-color: red;
+}
+
+.time > div {
+  display: grid;
+  /* ITEM ALIGNMENT */
+  justify-items: center;
+}

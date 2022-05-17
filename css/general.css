@@ -1,5 +1,7 @@
 body {
   font-family: sans-serif;
+  font-weight: 700;
+  color: #fee658;
 }
 
 .container {
@@ -12,7 +14,7 @@ body {
 }
 
 .header {
-  background-color: aquamarine;
+  background-color: #321547;
 }
 
 .content {
@@ -42,11 +44,11 @@ body {
 }
 
 .hour > div:nth-child(odd) {
-  background-color: blue;
+  background-color: #321547;
 }
 
 .hour > div:nth-child(even) {
-  background-color: blueviolet;
+  background-color: #240f33;
 }
 
 .course {
@@ -69,7 +71,7 @@ body {
 .wed-col > div:nth-child(odd),
 .thu-col > div:nth-child(odd),
 .fri-col > div:nth-child(odd) {
-  background-color: brown;
+  background-color: #3e1b59;
 }
 
 .mon-col > div:nth-child(even),
@@ -77,11 +79,11 @@ body {
 .wed-col > div:nth-child(even),
 .thu-col > div:nth-child(even),
 .fri-col > div:nth-child(even) {
-  background-color: violet;
+  background-color: #57267c;
 }
 
 .time {
-  background-color: red;
+  background-color: #c00000;
 }
 
 .time > div {

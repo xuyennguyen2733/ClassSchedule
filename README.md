@@ -9,3 +9,6 @@ Progress log:
     5/14/2022:
         - Created the initial website with a simple, incomplete calendar using grid
         - Calendar divided into cells to resemble how the original calendar's division
+    5/17/2022:
+        - Applied colors and font styles
+        - TODO: display course blocks on calendar

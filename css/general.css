@@ -91,3 +91,7 @@ body {
   /* ITEM ALIGNMENT */
   justify-items: center;
 }
+
+.mon-col > div:nth-child(9) {
+  grid-row: 9/13;
+}

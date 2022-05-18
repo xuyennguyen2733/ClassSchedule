@@ -11,4 +11,16 @@ Progress log:
         - Calendar divided into cells to resemble how the original calendar's division
     5/17/2022:
         - Applied colors and font styles
-        - TODO: display course blocks on calendar
+        - Display course blocks on calendar with hover effects.
+        - Issues:
+            + child item of one container gets cut of if overlap with the child item of the container to its right. This might or might not only happen when the containers are positioned relative while the children absolute. I ran into this issue trying to create shaddows for the course blocks and expand/translate it when hovering to create a feeling that the block move closer to the screen. When implementing this, the expanded part of the block, including the shadow, would be cut off/covered if overlap with the elements on its right.
+        - Fix:
+            I created a huge container whose class called main-section. "Main-section" because I figured this calendar may belong to a small section of a multi-sections page as I further develop this website.
+
+            Inside the container, there are 2 elements mimicking each other in terms of grid division. The 1st element is of the class "calendar-container" and is positioned "absolute" in relative to "main-section" container. Meanwhile, the other element of the class "calendar" holds the elements that make up the base decorations of the calendar (excluding the course-blocks).
+
+            The "calendar-container" element is layed on top of the "calendar" one and includes 4 children: time-container, weekday-container, hour-container, and course-container, which are the counterparts of the children under the "calendar" element (named time, weekday, hour, and course respectively).
+
+            I then moved all the course-block elements from the "calendar" element into the "calendar-container" so that they are on top of everything.
+
+            This fixed the issue because all the course-block now placed on top of everything, leaving no chance of being covered/cut off by the children of other elements.

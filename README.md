@@ -29,3 +29,4 @@ Progress log:
         - Added a footer portion for the calendar that displays 1 online class on the left and classes' actual names on the right.
         - In the future, this footer might have a scroll bar to display more than one online classes if needed, but this is not likely to happen as I do not plan to take more than 1 online class per semester. In addition, CS classes are not likely to be online, so there might not be many options anyways.
         - I added a header and footer tag in the html file, but will need to refer to the Omnifood project to see how those sections of the page are arranged.
+        - More rearangements of the elements inside the calendar. For example, the course blocks are now on a third layer of the, which is on top of the shadow layer, which in turn is placed on top of the based layer (where the stripe decorations are).

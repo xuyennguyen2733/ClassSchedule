@@ -24,3 +24,8 @@ Progress log:
             I then moved all the course-block elements from the "calendar" element into the "calendar-container" so that they are on top of everything.
 
             This fixed the issue because all the course-block now placed on top of everything, leaving no chance of being covered/cut off by the children of other elements.
+
+    5/18/2022:
+        - Added a footer portion for the calendar that displays 1 online class on the left and classes' actual names on the right.
+        - In the future, this footer might have a scroll bar to display more than one online classes if needed, but this is not likely to happen as I do not plan to take more than 1 online class per semester. In addition, CS classes are not likely to be online, so there might not be many options anyways.
+        - I added a header and footer tag in the html file, but will need to refer to the Omnifood project to see how those sections of the page are arranged.

@@ -49,20 +49,19 @@ INITIAL SETUP
   let others = {
     cellColor: "#c00000",
     textContent: "Time",
+    classList: ["flex-center", "timetable-corner"],
   };
   const cornerCell = createTimetableCell("cornerLabel", others);
-  cornerCell.classList.add("flex-center");
   timetableHead.appendChild(cornerCell);
 
   // 2. next cells are the labels of weekdays
   const classList = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
   for (let i = 0; i < 5; i++) {
     others = {
-      cellColorClass: "cell-color--2",
+      classList: ["cell-color--2", "flex-center"],
       textContent: classList[i],
     };
     const weekdayBlock = createTimetableCell("weekday-label", others);
-    weekdayBlock.classList.add("flex-center");
     timetableHead.appendChild(weekdayBlock);
   }
 }
@@ -71,7 +70,7 @@ INITIAL SETUP
 for (let i = 1; i <= 40; i++) {
   const others = {
     gridRow: `${i} / ${i + 1}`,
-    cellColorClass: `cell-color--${(i + 1) % 2}`,
+    classList: [`cell-color--${(i + 1) % 2}`],
   };
   const monBlock = createTimetableCell("monday", others);
   const tueBlock = createTimetableCell("tuesday", others);
@@ -95,14 +94,13 @@ for (let i = 1; i <= 10; i++) {
 
   const others = {
     gridRow: `${i} / ${i + 1}`,
-    cellColorClass: `cell-color--${((i + 1) % 2) + 2}`,
+    classList: [`cell-color--${((i + 1) % 2) + 2}`, "flex-center-top"],
     textContent: textContent,
   };
 
   // console.log(others.textContent);
 
   const timeBlock = createTimetableCell("sideLabel", others);
-  timeBlock.classList.add("flex-center-top");
 
   timetableSide.appendChild(timeBlock);
 }
@@ -166,7 +164,7 @@ function createTimetableCell(classAttribute, othersObj) {
     gridColumn: othersObj.gridColumn,
     cellColor: othersObj.cellColor,
     textContent: othersObj.textContent,
-    cellColorClass: othersObj.cellColorClass,
+    classList: othersObj.classList,
   };
 
   const divTag = document.createElement("div");
@@ -188,8 +186,10 @@ function createTimetableCell(classAttribute, othersObj) {
     divTag.textContent = properties.textContent;
   }
 
-  if (properties.cellColorClass !== undefined) {
-    divTag.classList.add(properties.cellColorClass);
+  if (properties.classList !== undefined) {
+    for (let i = 0; i < properties.classList.length; i++) {
+      divTag.classList.add(properties.classList[i]);
+    }
   }
 
   return divTag;

@@ -40,10 +40,17 @@ body {
 
 .timetable-head {
   grid-area: 1 / 1 / 2 / -1;
+  position: relative;
+  box-shadow: -0.6px 1.2px 4.8px 1.2px #00000090;
+}
+
+.timetable-corner {
+  box-shadow: inset -1.2px -1.2px 1.6px #0000007e;
 }
 
 .timetable-body {
   grid-area: 2 / 2 / 3 / 3;
+  box-shadow: -0.6px 1.2px 4.8px 1.2px #00000090;
 }
 
 .timetable-side {

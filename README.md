@@ -30,3 +30,16 @@ Progress log:
         - In the future, this footer might have a scroll bar to display more than one online classes if needed, but this is not likely to happen as I do not plan to take more than 1 online class per semester. In addition, CS classes are not likely to be online, so there might not be many options anyways.
         - I added a header and footer tag in the html file, but will need to refer to the Omnifood project to see how those sections of the page are arranged.
         - More rearangements of the elements inside the calendar. For example, the course blocks are now on a third layer of the, which is on top of the shadow layer, which in turn is placed on top of the based layer (where the stripe decorations are).
+
+    5/31/2022:
+        - Started working on the backend.
+        - I began by creating the form that is supposed to pop-up when a course block or a time slot is clicked. For now it always shows up at the end of the timetable. To make the main script less complicated, I created a "module" called datetime.js that works with creating time selector droplists and work with operations on date and time. For now it can only create a time droplist element using this html syntax:
+            <input type=<type> id=<id> name=<name> data-format="h:mm A" data-template="hh : mm A" />
+        which will be replaced by:
+            <select name=<name> id=<id>>
+                <option value=<start-number>>start-number</option>
+                ...
+                <option value=<end-number>>end-number</option>
+            </select>
+        by the function "createTimeDropList()"
+        - This might very time-consuming, and because I do not have any experience creating a module, my code might be very messy in both the "module" and the main scripts. I wanted to give it a try, still, to see how far I can go.

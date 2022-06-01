@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" href="style.css" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="timetable">
+      <div class="timetable-head grid--1-6 font--golden-bold"></div>
+      <div class="timetable-side grid--10-1 font--golden-bold"></div>
+      <div class="timetable-body grid--40-5"></div>
+    </div>
+    <div class="hidden course-form-container">
+      <div class="start-time">
+        <select name="hour" id="hour"></select>
+        <select name="minute" id="minute"></select>
+        <select name="meridiem" id="meridiem">
+          <option value="AM">AM</option>
+          <option value="PM">PM</option>
+        </select>
+      </div>
+      <div class="end-time">
+        <select name="hour" id="hour"></select>
+        <select name="minute" id="minute"></select>
+        <select name="meridiem" id="meridiem">
+          <option value="AM">AM</option>
+          <option value="PM">PM</option>
+        </select>
+      </div>
+    </div>
+    <script src="init.js"></script>
+  </body>
+</html>

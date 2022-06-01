@@ -1,0 +1,40 @@
+.hidden {
+  display: none;
+}
+
+.margin--5 {
+  margin: 5rem 5rem;
+}
+
+.flex-right {
+  display: flex;
+  justify-content: right;
+  align-items: center;
+}
+
+.flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.width--75 {
+  width: 75rem;
+}
+
+.timetable-grid {
+  /* GRID */
+  display: grid;
+  grid-template-columns: 1fr 5fr;
+  grid-template-rows: 1fr 48fr;
+}
+
+.monday {
+  grid-column: 1 / 2;
+}
+
+.button {
+  margin: 1rem 1rem;
+  width: 10rem;
+  height: 3rem;
+}

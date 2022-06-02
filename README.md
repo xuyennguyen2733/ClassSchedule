@@ -43,3 +43,12 @@ Progress log:
             </select>
         by the function "createTimeDropList()"
         - This might very time-consuming, and because I do not have any experience creating a module, my code might be very messy in both the "module" and the main scripts. I wanted to give it a try, still, to see how far I can go.
+
+    6/1/2022:
+        - Today I worked more with the test table. It seems like the code is cleaner, more logical, and simpler in terms of the html file. Therefore, I might replace the current timetable with this test table permanently soon.
+        - The time table almost look exactly like the original one, with the right colors and shadows. The only missing part now is the foot part.
+        - The course form logic works fine now.
+        - Issue: duplicated or overlap course blocks is currently possible.
+        - Plan:
+            + Create an opject to hold all courses start and end times. This make it easier to implement a schedule that does not allow courses/tasks to overlap or duplicate.
+            + When the schedule works correctly, I might need to find a way/place to save the course data and retrieve the course from there when loading the page. That way any saved changes will be reflected and not go away when the page is reloaded.

@@ -16,9 +16,9 @@
  ******************************************************/
 const weekdayList = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
 const hourList = [];
+const timeOffSet = 7;
 for (let i = 0; i < 10; i++) {
-  const offset = 7;
-  const time = indexToCalendarTime(i, offset);
+  const time = indexToCalendarTime(i, timeOffSet);
   hourList.push(time);
 }
 
@@ -31,6 +31,7 @@ const btnCloseCourseForm = courseForm.querySelector(".btn--close");
 const btnSaveCourseForm = courseForm.querySelector(".save-course");
 
 const startTime = {
+  day: "",
   hour: 0,
   minute: 0,
   meridiem: "",
@@ -43,6 +44,7 @@ const endTime = {
 };
 
 const startTimeSelectEls = {
+  day: document.querySelector(".weekday #weekday"),
   hour: document.querySelector(".start-time #hour"),
   minute: document.querySelector(".start-time #minute"),
   meridiem: document.querySelector(".start-time #meridiem"),
@@ -72,13 +74,20 @@ INITIAL SETUP
   timetableHead.appendChild(cornerCell);
 
   // 2. next cells are the labels of weekdays
+  // 3. also populate the weekday droplist
   for (let i = 0; i < 5; i++) {
     others = {
       classList: ["cell-color--2", "flex-center"],
       textContent: weekdayList[i],
     };
+
+    // add label items to table head
     const weekdayBlock = createTimetableCell("weekday-label", others);
     timetableHead.appendChild(weekdayBlock);
+
+    // populate weekday droplist
+    const weekdayDropItem = createOptionElement(weekdayList[i], weekdayList[i]);
+    startTimeSelectEls.day.appendChild(weekdayDropItem);
   }
 }
 
@@ -148,6 +157,8 @@ for (let i = 0; i <= 60; i += 5) {
   endTimeSelectEls.minute.appendChild(endOptionEl);
 }
 
+updateCourseTime();
+
 /******************************************************
  * ----------------------------------------------------
  *******************************************************/
@@ -160,6 +171,7 @@ EVENT SETUP
 btnCloseCourseForm.addEventListener("click", hideCourseForm);
 btnSaveCourseForm.addEventListener("click", logCourse);
 
+startTimeSelectEls.day.addEventListener("change", updateCourseTime);
 startTimeSelectEls.hour.addEventListener("change", updateCourseTime);
 startTimeSelectEls.minute.addEventListener("change", updateCourseTime);
 
@@ -176,10 +188,19 @@ function showCourseForm() {
   const el = this;
   const row = el.style.gridRow;
   const rowStart = row.split(" / ")[0];
+  // console.log(this.classList);
 
   const index = Math.trunc((rowStart - 1) / 4);
+  const minute = ((rowStart - 1) % 4) * 15;
+  const meridiem = hourList[index][1];
+  // console.log(index, hour, minute, meridiem);
 
-  console.log(rowStart, hourList[index]);
+  // Pre-select droplist values based on cell clicked
+  startTimeSelectEls.day.value = el.classList[0];
+  startTimeSelectEls.hour.value = index;
+  startTimeSelectEls.minute.value = minute;
+  startTimeSelectEls.meridiem.textContent = meridiem;
+
   courseForm.classList.remove("hidden");
 }
 
@@ -191,10 +212,24 @@ function logCourse() {
   const cmp = compareTime(startTime, endTime);
 
   if (cmp >= 0) console.log("invalid input");
-  else console.log("saved");
+  else {
+    const indexStart = calendarTimeToIndex([startTime.hour, startTime.meridiem], timeOffSet);
+    const indexEnd = calendarTimeToIndex([endTime.hour, endTime.meridiem], timeOffSet);
+
+    const rowStart = indexStart * 4 + (Math.trunc(startTime.minute / 15) + 1);
+    const rowEnd = indexEnd * 4 + (Math.trunc(endTime.minute / 15) + 1);
+
+    const others = {
+      gridRow: `${rowStart} / ${rowEnd}`,
+      classList: [startTime.day, "course-block"],
+    };
+    const courseBlock = createTimetableCell(startTime.day, others);
+    timetableBody.append(courseBlock);
+  }
 }
 
 function updateCourseTime() {
+  startTime.day = startTimeSelectEls.day.value;
   startTime.hour = hourList[startTimeSelectEls.hour.value][0];
   startTime.meridiem = hourList[startTimeSelectEls.hour.value][1];
   startTime.minute = startTimeSelectEls.minute.value;
@@ -267,9 +302,16 @@ function indexToCalendarTime(index, offset) {
   return [hour <= 12 ? hour : hour - 12, hour < 12 ? "AM" : "PM"];
 }
 
+function calendarTimeToIndex(time, offset) {
+  const hour = time[1] === "AM" ? time[0] : time[0] + 12;
+  const index = hour - offset - 1;
+  return index;
+}
+
 function compareTime(startTime, endTime) {
-  if (startTime.meridiem === "AM" && endTime.meridiem == "PM") return -1;
+  if (startTime.meridiem === "AM" && endTime.meridiem === "PM") return -1;
   // console.log(startTime.hour === endTime.hour && startTime.minute === endTime.minute && startTime.meridiem === endTime.meridiem);
+  if (startTime.hour === 12 && endTime.meridiem === "PM") return -1;
   if (startTime.hour < endTime.hour) return -1;
   if (startTime.minute < endTime.minute) return -1;
 

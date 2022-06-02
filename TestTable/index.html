@@ -17,14 +17,18 @@
     <div class="hidden course-form-container">
       <button class="button btn--close">X</button>
       <form>
-        <label for="start-time">Start Time:</label>
+        <div class="weekday">
+          <label for="weekday">Day:</label>
+          <select name="weekday" id="weekday"></select>
+        </div>
         <div class="start-time">
+          <label for="start-time">Start Time:</label>
           <select name="hour" id="hour"></select>
           <select name="minute" id="minute"></select>
           <label name="meridiem" id="meridiem">AM</label>
         </div>
-        <label for="end-time">End Time:</label>
         <div class="end-time">
+          <label for="end-time">End Time:</label>
           <select name="hour" id="hour"></select>
           <select name="minute" id="minute"></select>
           <label name="meridiem" id="meridiem">AM</label>

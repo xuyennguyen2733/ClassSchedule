@@ -59,28 +59,29 @@ body {
   /* box-shadow: 1.5px 0 3.2px #00000058, 0 2.4px 2.4px #0000005a; */
 }
 
-.monday {
+.Monday {
   grid-column: 1 / 2;
 }
 
-.tuesday {
+.Tuesday {
   grid-column: 2 / 3;
 }
 
-.wednesday {
+.Wednesday {
   grid-column: 3 / 4;
 }
 
-.thursday {
+.Thursday {
   grid-column: 4 / 5;
 }
 
-.friday {
+.Friday {
   grid-column: 5 / 6;
 }
 
 .course-block {
   background-color: aqua;
+  position: relative;
 }
 
 .course-form-container {

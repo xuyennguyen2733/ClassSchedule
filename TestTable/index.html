@@ -10,27 +10,27 @@
   </head>
   <body>
     <div class="timetable">
-      <div class="timetable-head grid--1-6 font--golden-bold"></div>
-      <div class="timetable-side grid--10-1 font--golden-bold"></div>
-      <div class="timetable-body grid--40-5"></div>
+      <div class="timetable-head grid--1-6 font--golden-bold down-right-shadow"></div>
+      <div class="timetable-side grid--10-1 font--golden-bold down-right-shadow"></div>
+      <div class="timetable-body grid--40-5 down-right-shadow"></div>
     </div>
     <div class="hidden course-form-container">
-      <div class="start-time">
-        <select name="hour" id="hour"></select>
-        <select name="minute" id="minute"></select>
-        <select name="meridiem" id="meridiem">
-          <option value="AM">AM</option>
-          <option value="PM">PM</option>
-        </select>
-      </div>
-      <div class="end-time">
-        <select name="hour" id="hour"></select>
-        <select name="minute" id="minute"></select>
-        <select name="meridiem" id="meridiem">
-          <option value="AM">AM</option>
-          <option value="PM">PM</option>
-        </select>
-      </div>
+      <button class="button btn--close">X</button>
+      <form>
+        <label for="start-time">Start Time:</label>
+        <div class="start-time">
+          <select name="hour" id="hour"></select>
+          <select name="minute" id="minute"></select>
+          <label name="meridiem" id="meridiem">AM</label>
+        </div>
+        <label for="end-time">End Time:</label>
+        <div class="end-time">
+          <select name="hour" id="hour"></select>
+          <select name="minute" id="minute"></select>
+          <label name="meridiem" id="meridiem">AM</label>
+        </div>
+      </form>
+      <button class="save-course">Save</button>
     </div>
     <script src="init.js"></script>
   </body>

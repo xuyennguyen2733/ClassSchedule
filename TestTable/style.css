@@ -41,7 +41,7 @@ body {
 .timetable-head {
   grid-area: 1 / 1 / 2 / -1;
   position: relative;
-  box-shadow: -0.6px 1.2px 4.8px 1.2px #00000090;
+  /* box-shadow: -0.6px 1.2px 4.8px 1.2px #00000090; */
 }
 
 .timetable-corner {
@@ -50,13 +50,13 @@ body {
 
 .timetable-body {
   grid-area: 2 / 2 / 3 / 3;
-  box-shadow: -0.6px 1.2px 4.8px 1.2px #00000090;
+  /* box-shadow: -0.6px 1.2px 4.8px 1.2px #00000090; */
 }
 
 .timetable-side {
   grid-area: 2 / 1 / 3 / 2;
   position: relative;
-  box-shadow: 1.5px 0 3.2px #00000058, 0 2.4px 2.4px #0000005a;
+  /* box-shadow: 1.5px 0 3.2px #00000058, 0 2.4px 2.4px #0000005a; */
 }
 
 .monday {
@@ -88,6 +88,8 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  position: relative;
 
   width: 20rem;
   height: 10rem;
@@ -127,4 +129,22 @@ body {
   display: flex;
   align-items: start;
   justify-content: center;
+}
+
+.btn--close {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.hover-animation:hover {
+  box-shadow: 1px 1px 2.4px 1.2px #00000043;
+  transition: all 0.2s;
+  transform: translate(-0.2px, -0.2px);
+  width: 102%;
+  height: 105%;
+}
+
+.down-right-shadow {
+  box-shadow: 0 1.2px 4.8px 1.2px #00000090;
 }

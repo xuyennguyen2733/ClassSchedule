@@ -96,7 +96,7 @@ INITIAL SETUP
   for (let i = 1; i <= 40; i++) {
     const others = {
       gridRow: `${i} / ${i + 1}`,
-      classList: [`cell-color--${(i + 1) % 2}`, "hover-animation"],
+      classList: [`cell-color--${(i + 1) % 2}`, "hover-animation--pressed"],
     };
 
     for (let j = 0; j < 5; j++) {
@@ -208,26 +208,6 @@ function hideCourseForm() {
   courseForm.classList.add("hidden");
 }
 
-function logCourse() {
-  const cmp = compareTime(startTime, endTime);
-
-  if (cmp >= 0) console.log("invalid input");
-  else {
-    const indexStart = calendarTimeToIndex([startTime.hour, startTime.meridiem], timeOffSet);
-    const indexEnd = calendarTimeToIndex([endTime.hour, endTime.meridiem], timeOffSet);
-
-    const rowStart = indexStart * 4 + (Math.trunc(startTime.minute / 15) + 1);
-    const rowEnd = indexEnd * 4 + (Math.trunc(endTime.minute / 15) + 1);
-
-    const others = {
-      gridRow: `${rowStart} / ${rowEnd}`,
-      classList: [startTime.day, "course-block"],
-    };
-    const courseBlock = createTimetableCell(startTime.day, others);
-    timetableBody.append(courseBlock);
-  }
-}
-
 function updateCourseTime() {
   startTime.day = startTimeSelectEls.day.value;
   startTime.hour = hourList[startTimeSelectEls.hour.value][0];
@@ -240,6 +220,38 @@ function updateCourseTime() {
 
   startTimeSelectEls.meridiem.textContent = startTime.meridiem;
   endTimeSelectEls.meridiem.textContent = endTime.meridiem;
+}
+
+function logCourse() {
+  console.log(startTime);
+  const indexStart = calendarTimeToIndex([startTime.hour, startTime.meridiem], timeOffSet);
+  const indexEnd = calendarTimeToIndex([endTime.hour, endTime.meridiem], timeOffSet);
+
+  const rowStart = indexStart * 4 + (Math.trunc(startTime.minute / 15) + 1);
+  const rowEnd = indexEnd * 4 + (Math.ceil(endTime.minute / 15) + 1);
+
+  const daySchedule = schedule[startTime.day];
+  console.log(startTime, endTime);
+  const cmp = compareTime(startTime, endTime);
+
+  console.log(cmp);
+
+  if (cmp >= 0) throw "invalid input!";
+
+  for (let i = rowStart + 1; i <= rowEnd - 1; i++) {
+    if (daySchedule[i] === true) throw "Time conflict!";
+  }
+
+  for (let i = rowStart; i <= rowEnd; i++) {
+    daySchedule[i] = true;
+  }
+
+  const others = {
+    gridRow: `${rowStart} / ${rowEnd}`,
+    classList: [startTime.day, "course-block", "hover-animation--float"],
+  };
+  const courseBlock = createTimetableCell(startTime.day, others);
+  timetableBody.append(courseBlock);
 }
 
 /******************************************************
@@ -303,21 +315,24 @@ function indexToCalendarTime(index, offset) {
 }
 
 function calendarTimeToIndex(time, offset) {
-  const hour = time[1] === "AM" ? time[0] : time[0] + 12;
+  const hour = time[1] === "AM" || time[0] === 12 ? time[0] : time[0] + 12;
   const index = hour - offset - 1;
   return index;
 }
 
 function compareTime(startTime, endTime) {
   if (startTime.meridiem === "AM" && endTime.meridiem === "PM") return -1;
+  if (startTime.meridiem === "PM" && endTime.meridiem === "AM") return 1;
   // console.log(startTime.hour === endTime.hour && startTime.minute === endTime.minute && startTime.meridiem === endTime.meridiem);
-  if (startTime.hour === 12 && endTime.meridiem === "PM") return -1;
+  if (startTime.hour === 12 && endTime.hour !== 12) return -1;
   if (startTime.hour < endTime.hour) return -1;
+  if (startTime.hour > endTime.hour) return 1;
   if (startTime.minute < endTime.minute) return -1;
+  if (startTime.minute > endTime.minute) return 1;
 
-  if (startTime.hour === endTime.hour && startTime.minute === endTime.minute && startTime.meridiem === endTime.meridiem) return 0;
+  // if (startTime.minute === endTime.minute && startTime.meridiem === endTime.meridiem) return 0;
 
-  return 1;
+  return 0;
 }
 
 // function createDivElementOnGrid(classAttribute, gridColumn) {}

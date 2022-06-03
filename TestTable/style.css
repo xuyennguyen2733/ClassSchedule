@@ -208,6 +208,12 @@ body {
   color: #fee658;
 }
 
+.font--golden-thin {
+  font-weight: 400;
+  font-size: auto;
+  color: #fee658;
+}
+
 .flex-center {
   display: flex;
   align-items: center;

@@ -169,7 +169,7 @@ EVENT SETUP
 
 // Event listeners
 btnCloseCourseForm.addEventListener("click", hideCourseForm);
-btnSaveCourseForm.addEventListener("click", logCourse);
+btnSaveCourseForm.addEventListener("click", saveCourse);
 
 startTimeSelectEls.day.addEventListener("change", updateCourseTime);
 startTimeSelectEls.hour.addEventListener("change", updateCourseTime);
@@ -202,10 +202,17 @@ function showCourseForm() {
   startTimeSelectEls.meridiem.textContent = meridiem;
 
   courseForm.classList.remove("hidden");
+  courseForm.classList.add("z-index--2");
+  courseForm.nextElementSibling.classList.remove("hidden");
+  courseForm.nextElementSibling.classList.add("z-index--1");
 }
 
 function hideCourseForm() {
   courseForm.classList.add("hidden");
+  courseForm.classList.remove("z-index--2");
+  courseForm.nextElementSibling.classList.add("hidden");
+  courseForm.nextElementSibling.classList.remove("z-index--1");
+  document.querySelector(".course-form").reset();
 }
 
 function updateCourseTime() {
@@ -220,9 +227,11 @@ function updateCourseTime() {
 
   startTimeSelectEls.meridiem.textContent = startTime.meridiem;
   endTimeSelectEls.meridiem.textContent = endTime.meridiem;
+
+  startTimeSelectEls;
 }
 
-function logCourse() {
+function saveCourse() {
   console.log(startTime);
   const indexStart = calendarTimeToIndex([startTime.hour, startTime.meridiem], timeOffSet);
   const indexEnd = calendarTimeToIndex([endTime.hour, endTime.meridiem], timeOffSet);
@@ -252,6 +261,8 @@ function logCourse() {
   };
   const courseBlock = createTimetableCell(startTime.day, others);
   timetableBody.append(courseBlock);
+
+  hideCourseForm();
 }
 
 /******************************************************

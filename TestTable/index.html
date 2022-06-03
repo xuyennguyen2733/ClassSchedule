@@ -14,28 +14,68 @@
       <div class="timetable-side grid--10-1 font--golden-bold down-right-shadow"></div>
       <div class="timetable-body grid--40-5 down-right-shadow"></div>
     </div>
-    <div class="hidden course-form-container">
-      <button class="button btn--close">X</button>
-      <form>
+    <div class="course-form-container fixed-center hidden">
+      <form class="course-form">
+        <div class="class-code">
+          <label for="class-code">Class Code</label>
+          <input type="text" name="class-code" id="class-code" placeholder="CS 3505" required />
+        </div>
+        <div class="class-name">
+          <label for="class-name">Class Name</label>
+          <input type="text" name="class-name" id="class-name" placeholder="Software Practice II" required />
+        </div>
+        <div class="class-type">
+          <div>
+            <label for="class-type">Type</label>
+          </div>
+          <div>
+            <select name="class-type" id="class-type">
+              <option value="Lecture">Lecture</option>
+              <option value="Lab">Lab</option>
+              <option value="Online">Online</option>
+              <option value="TBA">TBA</option>
+            </select>
+          </div>
+        </div>
+        <div class="location">
+          <label for="location">Location</label>
+          <input type="text" name="location" id="location" placeholder="WEB L104" required />
+        </div>
         <div class="weekday">
-          <label for="weekday">Day:</label>
-          <select name="weekday" id="weekday"></select>
+          <div>
+            <label for="weekday">Day</label>
+          </div>
+          <div>
+            <select name="weekday" id="weekday"></select>
+          </div>
         </div>
         <div class="start-time">
-          <label for="start-time">Start Time:</label>
-          <select name="hour" id="hour"></select>
-          <select name="minute" id="minute"></select>
-          <label name="meridiem" id="meridiem">AM</label>
+          <div>
+            <label for="start-time">Start Time</label>
+          </div>
+          <div>
+            <select name="hour" id="hour"></select>
+            <select name="minute" id="minute"></select>
+            <label name="meridiem" id="meridiem">AM</label>
+          </div>
+        </div>
+        <div class="flex-right-center">
+          <button class="button save-course" type="button">Save</button>
+          <button class="button btn--close" type="button">Cancel</button>
         </div>
         <div class="end-time">
-          <label for="end-time">End Time:</label>
-          <select name="hour" id="hour"></select>
-          <select name="minute" id="minute"></select>
-          <label name="meridiem" id="meridiem">AM</label>
+          <div>
+            <label for="end-time">End Time</label>
+          </div>
+          <div>
+            <select name="hour" id="hour"></select>
+            <select name="minute" id="minute"></select>
+            <label name="meridiem" id="meridiem">AM</label>
+          </div>
         </div>
       </form>
-      <button class="save-course">Save</button>
     </div>
+    <div class="overlay fixed-center hidden"></div>
     <script src="init.js"></script>
     <script src="schedule-controller.js"></script>
   </body>

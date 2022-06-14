@@ -56,5 +56,3 @@ function createTimeDropList(selector, startValue, endValue) {
 function parseTimeFormat(timeString) {
   return timeString.split(/[\s\:]+/);
 }
-
-parseTimeFormat("hello:there !");

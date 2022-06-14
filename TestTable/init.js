@@ -55,6 +55,7 @@ const formObj = {
 };
 
 const btnCloseCourseForm = courseFormContainer.querySelector(".btn--close");
+const overlay = document.querySelector(".overlay");
 const btnSaveCourseForm = courseFormContainer.querySelector(".save-course");
 
 const currentCourse = {
@@ -170,9 +171,9 @@ for (let i = 0; i < 10; i++) {
 }
 
 // Create minute droplist - 5 minute intervals
-for (let i = 0; i <= 60; i += 5) {
-  const startOptionEl = createOptionElement(i, i);
-  const endOptionEl = createOptionElement(i, i);
+for (let i = 0; i < 60; i += 5) {
+  const startOptionEl = createOptionElement(i, ("0" + i).slice(-2));
+  const endOptionEl = createOptionElement(i, ("0" + i).slice(-2));
   formObj.startTime.minute.appendChild(startOptionEl);
   formObj.endTime.minute.appendChild(endOptionEl);
 }
@@ -189,6 +190,7 @@ EVENT SETUP
 
 // Event listeners
 btnCloseCourseForm.addEventListener("click", hideCourseForm);
+overlay.addEventListener("click", hideCourseForm);
 btnSaveCourseForm.addEventListener("click", saveCourse);
 
 formObj.day.addEventListener("change", updateCourseTime);
@@ -202,7 +204,7 @@ formObj.endTime.minute.addEventListener("change", updateCourseTime);
 
 // timetable.
 
-// Event handlers
+/* EVENT HANDLERS */
 
 function showCourseForm() {
   const el = this;
@@ -284,9 +286,14 @@ function saveCourse() {
   };
   const courseBlock = createTimetableCell(currentCourse.day, others);
   fillCourseBlock(courseBlock);
+  courseBlock.addEventListener("click", updateCourseInformation);
   timetableBody.append(courseBlock);
 
   hideCourseForm();
+}
+
+function updateCourseInformation() {
+  console.log(this);
 }
 
 /******************************************************
@@ -308,36 +315,28 @@ function createOptionElement(valueAttribute, textNode) {
 }
 
 function createTimetableCell(classAttribute, othersObj) {
-  const properties = {
-    gridRow: othersObj.gridRow,
-    gridColumn: othersObj.gridColumn,
-    cellColor: othersObj.cellColor,
-    textContent: othersObj.textContent,
-    classList: othersObj.classList,
-  };
-
   const divTag = document.createElement("div");
   divTag.classList.add(classAttribute);
 
-  if (properties.gridRow !== undefined) {
-    divTag.style.gridRow = properties.gridRow;
+  if (othersObj.gridRow !== undefined) {
+    divTag.style.gridRow = othersObj.gridRow;
   }
 
-  if (properties.gridColumn !== undefined) {
-    divTag.style.gridColumn = properties.gridColumn;
+  if (othersObj.gridColumn !== undefined) {
+    divTag.style.gridColumn = othersObj.gridColumn;
   }
 
-  if (properties.cellColor !== undefined) {
-    divTag.style.backgroundColor = properties.cellColor;
+  if (othersObj.cellColor !== undefined) {
+    divTag.style.backgroundColor = othersObj.cellColor;
   }
 
-  if (properties.textContent !== undefined) {
-    divTag.textContent = properties.textContent;
+  if (othersObj.textContent !== undefined) {
+    divTag.textContent = othersObj.textContent;
   }
 
-  if (properties.classList !== undefined) {
-    for (let i = 0; i < properties.classList.length; i++) {
-      divTag.classList.add(properties.classList[i]);
+  if (othersObj.classList !== undefined) {
+    for (let i = 0; i < othersObj.classList.length; i++) {
+      divTag.classList.add(othersObj.classList[i]);
     }
   }
 
@@ -372,7 +371,7 @@ function compareTime(startTime, endTime) {
 
 function fillCourseBlock(el) {
   const classCodeEl = document.createElement("div");
-  classCodeEl.textContent = currentCourse.classCode;
+  classCodeEl.textContent = currentCourse.classCode.toUpperCase();
 
   const classTypeEl = document.createElement("div");
   classTypeEl.textContent = currentCourse.classType;
@@ -383,12 +382,21 @@ function fillCourseBlock(el) {
   }:${("0" + currentCourse.endTime.minute).slice(-2)}${currentCourse.endTime.meridiem}`;
 
   const locationEl = document.createElement("div");
-  locationEl.textContent = currentCourse.location;
+  locationEl.textContent = currentCourse.location.toUpperCase();
 
   el.append(classCodeEl);
   el.append(classTypeEl);
   el.append(classTimeEl);
   el.append(locationEl);
+}
+
+function toTitleCase(str) {
+  let newStr = "";
+  const strArr = str.split(" ");
+  for (const word of strArr) {
+    newStr += word.toLowerCase().charAt(0).toUpperCase();
+  }
+  return newStr;
 }
 
 // function createDivElementOnGrid(classAttribute, gridColumn) {}

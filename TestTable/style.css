@@ -279,9 +279,9 @@ body {
 }
 
 .hover-animation--pressed:hover {
-  box-shadow: inset 1px 1px 4.8px 0.2px #00000053;
-  filter: brightness(97%);
-  transition: all 0.1s;
+  box-shadow: inset 0.5px 0.5px 3.2px 0.2px #00000053;
+  filter: brightness(95%);
+  transition: all 0.05s;
   /* transform: translate(0.2px, 0.2px); */
 }
 
@@ -321,4 +321,9 @@ body {
 
 .z-index--2 {
   z-index: 2;
+}
+
+select:hover,
+button:hover {
+  cursor: pointer;
 }

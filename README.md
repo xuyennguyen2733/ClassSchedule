@@ -52,3 +52,9 @@ Progress log:
         - Plan:
             + Create an opject to hold all courses start and end times. This make it easier to implement a schedule that does not allow courses/tasks to overlap or duplicate.
             + When the schedule works correctly, I might need to find a way/place to save the course data and retrieve the course from there when loading the page. That way any saved changes will be reflected and not go away when the page is reloaded.
+
+    6/14/2022:
+        - The function of updating pre-existing courses was harder to implement than I had thought. The issue of element values being string instead of number had never been an issue until I started working on this function either. I never found out why. I sort of fixed it by going through the code and cast the strings that are meant to be numbers to type number, but it was not efficient at all.
+        - The code is getting more and more complicated. I might need to refactor it soon before it gets out of hand.
+        - The next feature to implement is probably to delete course, which should be simple to do.
+        - The most important thing is to create a database and allow the website to update/pull data from it, otherwise this website is useless.

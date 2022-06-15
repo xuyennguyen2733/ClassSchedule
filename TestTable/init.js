@@ -43,12 +43,12 @@ const formObj = {
   location: courseForm.querySelector("#location"),
   day: courseForm.querySelector("#weekday"),
   startTime: {
-    hour: document.querySelector(".start-time #hour"),
+    hourIndex: document.querySelector(".start-time #hour"),
     minute: document.querySelector(".start-time #minute"),
     meridiem: document.querySelector(".start-time #meridiem"),
   },
   endTime: {
-    hour: document.querySelector(".end-time #hour"),
+    hourIndex: document.querySelector(".end-time #hour"),
     minute: document.querySelector(".end-time #minute"),
     meridiem: document.querySelector(".end-time #meridiem"),
   },
@@ -56,7 +56,8 @@ const formObj = {
 
 const btnCloseCourseForm = courseFormContainer.querySelector(".btn--close");
 const overlay = document.querySelector(".overlay");
-const btnSaveCourseForm = courseFormContainer.querySelector(".save-course");
+const btnUpdateCourseForm = courseFormContainer.querySelector(".btn--update");
+const btnSaveCourseForm = courseFormContainer.querySelector(".btn--save");
 
 const currentCourse = {
   classCode: "",
@@ -145,7 +146,7 @@ INITIAL SETUP
 
 // create timetable side cells - starting from 8AM
 for (let i = 1; i <= 10; i++) {
-  const hour = hourList[i - 1][0];
+  const hour = Number(hourList[i - 1][0]);
   const meridiem = hourList[i - 1][1];
   const textContent = hour + meridiem;
 
@@ -154,8 +155,6 @@ for (let i = 1; i <= 10; i++) {
     classList: [`cell-color--${((i + 1) % 2) + 2}`, "flex-center-top"],
     textContent: textContent,
   };
-
-  // console.log(others.textContent);
 
   const timeBlock = createTimetableCell("sideLabel", others);
 
@@ -166,8 +165,8 @@ for (let i = 1; i <= 10; i++) {
 for (let i = 0; i < 10; i++) {
   const startOptionEl = createOptionElement(i, hourList[i][0]);
   const endOptionEl = createOptionElement(i, hourList[i][0]);
-  formObj.startTime.hour.appendChild(startOptionEl);
-  formObj.endTime.hour.appendChild(endOptionEl);
+  formObj.startTime.hourIndex.appendChild(startOptionEl);
+  formObj.endTime.hourIndex.appendChild(endOptionEl);
 }
 
 // Create minute droplist - 5 minute intervals
@@ -178,7 +177,7 @@ for (let i = 0; i < 60; i += 5) {
   formObj.endTime.minute.appendChild(endOptionEl);
 }
 
-updateCourseTime();
+updateCurrentCourseObject();
 
 /******************************************************
  * ----------------------------------------------------
@@ -191,14 +190,19 @@ EVENT SETUP
 // Event listeners
 btnCloseCourseForm.addEventListener("click", hideCourseForm);
 overlay.addEventListener("click", hideCourseForm);
+btnUpdateCourseForm.addEventListener("click", updateCourse);
 btnSaveCourseForm.addEventListener("click", saveCourse);
 
-formObj.day.addEventListener("change", updateCourseTime);
-formObj.startTime.hour.addEventListener("change", updateCourseTime);
-formObj.startTime.minute.addEventListener("change", updateCourseTime);
+formObj.classCode.addEventListener("change", updateCurrentCourseObject);
+formObj.className.addEventListener("change", updateCurrentCourseObject);
+formObj.classType.addEventListener("change", updateCurrentCourseObject);
+formObj.location.addEventListener("change", updateCurrentCourseObject);
+formObj.day.addEventListener("change", updateCurrentCourseObject);
+formObj.startTime.hourIndex.addEventListener("change", updateCurrentCourseObject);
+formObj.startTime.minute.addEventListener("change", updateCurrentCourseObject);
 
-formObj.endTime.hour.addEventListener("change", updateCourseTime);
-formObj.endTime.minute.addEventListener("change", updateCourseTime);
+formObj.endTime.hourIndex.addEventListener("change", updateCurrentCourseObject);
+formObj.endTime.minute.addEventListener("change", updateCurrentCourseObject);
 
 // formObj.startTime.hour.addEventListener("change", startHourChanged);
 
@@ -208,20 +212,37 @@ formObj.endTime.minute.addEventListener("change", updateCourseTime);
 
 function showCourseForm() {
   const el = this;
-  const row = el.style.gridRow;
-  const rowStart = row.split(" / ")[0];
-  // console.log(this.classList);
+  console.log(this);
 
-  const index = Math.trunc((rowStart - 1) / 4);
-  const minute = ((rowStart - 1) % 4) * 15;
-  const meridiem = hourList[index][1];
-  // console.log(index, hour, minute, meridiem);
+  const classTimeStr = this?.querySelector(".class-time")?.textContent;
+  let startTimeStr, endTimeStr, startHourIndex, startMinute, startMeridiem, endHourIndex, endMinute, endMeridiem;
+  if (classTimeStr) {
+    [startTimeStr, endTimeStr] = classTimeStr?.split(" - ");
+    console.log(startTimeStr, endTimeStr);
+  }
+  // const row = el.style.gridRow;
+  const rowStart = el.style.gridRowStart;
+  const rowEnd = el.style.gridRowEnd;
 
-  // Pre-select droplist values based on cell clicked
+  [startHourIndex, startMinute, startMeridiem] = timeStringToObject(startTimeStr) ?? rowToTime(rowStart);
+  [endHourIndex, endMinute, endMeridiem] = timeStringToObject(endTimeStr) ?? rowToTime(rowEnd);
+  console.log("hour indices are: ", startHourIndex, endHourIndex);
+
+  // Log in any information that is available
   formObj.day.value = el.classList[0];
-  formObj.startTime.hour.value = index;
-  formObj.startTime.minute.value = minute;
-  formObj.startTime.meridiem.textContent = meridiem;
+
+  formObj.startTime.hourIndex.value = startHourIndex;
+  formObj.startTime.minute.value = startMinute;
+  formObj.startTime.meridiem.textContent = startMeridiem;
+
+  formObj.endTime.hourIndex.value = endHourIndex;
+  formObj.endTime.minute.value = endMinute;
+  formObj.endTime.meridiem.textContent = endMeridiem;
+
+  formObj.classCode.value = el.querySelector(".class-code")?.textContent || "";
+  formObj.className.value = el.querySelector(".class-name")?.textContent || "";
+  formObj.classType.value = el.querySelector(".class-type")?.value || "Online";
+  formObj.location.value = el.querySelector(".location")?.textContent || "";
 
   courseFormContainer.classList.remove("hidden");
   courseFormContainer.classList.add("z-index--2");
@@ -237,40 +258,33 @@ function hideCourseForm() {
   courseForm.reset();
 }
 
-function updateCourseTime() {
+function updateCurrentCourseObject() {
   currentCourse.classCode = formObj.classCode.value;
   currentCourse.className = formObj.className.value;
   currentCourse.classType = formObj.classType.value;
   currentCourse.location = formObj.location.value;
   currentCourse.day = formObj.day.value;
 
-  currentCourse.startTime.hour = hourList[formObj.startTime.hour.value][0];
-  currentCourse.startTime.meridiem = hourList[formObj.startTime.hour.value][1];
-  currentCourse.startTime.minute = formObj.startTime.minute.value;
+  currentCourse.startTime.hour = Number(hourList[formObj.startTime.hourIndex.value][0]);
+  currentCourse.startTime.meridiem = hourList[formObj.startTime.hourIndex.value][1];
+  currentCourse.startTime.minute = Number(formObj.startTime.minute.value);
 
-  currentCourse.endTime.hour = hourList[formObj.endTime.hour.value][0];
-  currentCourse.endTime.meridiem = hourList[formObj.endTime.hour.value][1];
-  currentCourse.endTime.minute = formObj.endTime.minute.value;
+  currentCourse.endTime.hour = Number(hourList[formObj.endTime.hourIndex.value][0]);
+  currentCourse.endTime.meridiem = hourList[formObj.endTime.hourIndex.value][1];
+  currentCourse.endTime.minute = Number(formObj.endTime.minute.value);
 
   formObj.startTime.meridiem.textContent = currentCourse.startTime.meridiem;
   formObj.endTime.meridiem.textContent = currentCourse.endTime.meridiem;
 }
 
-function saveCourse() {
-  console.log(currentCourse.startTime);
-  const indexStart = calendarTimeToIndex([currentCourse.startTime.hour, currentCourse.startTime.meridiem], timeOffSet);
-  const indexEnd = calendarTimeToIndex([currentCourse.endTime.hour, currentCourse.endTime.meridiem], timeOffSet);
-
-  const rowStart = indexStart * 4 + (Math.trunc(currentCourse.startTime.minute / 15) + 1);
-  const rowEnd = indexEnd * 4 + (Math.ceil(currentCourse.endTime.minute / 15) + 1);
+function saveCourse(element) {
+  const [rowStart, rowEnd] = timeToRows(currentCourse.startTime, currentCourse.endTime);
 
   const daySchedule = schedule[currentCourse.day];
-  console.log(currentCourse.startTime, currentCourse.endTime);
   const cmp = compareTime(currentCourse.startTime, currentCourse.endTime);
 
-  console.log(cmp);
-
   if (cmp >= 0) throw "invalid input!";
+  console.log(cmp);
 
   for (let i = rowStart + 1; i <= rowEnd - 1; i++) {
     if (daySchedule[i] === true) throw "Time conflict!";
@@ -282,19 +296,75 @@ function saveCourse() {
 
   const others = {
     gridRow: `${rowStart} / ${rowEnd}`,
+    id: currentCourse.classCode.replace(/(\s+)/g, "-"),
     classList: [currentCourse.day, "course-block", "hover-animation--float", "font--golden-thin"],
   };
   const courseBlock = createTimetableCell(currentCourse.day, others);
   fillCourseBlock(courseBlock);
-  courseBlock.addEventListener("click", updateCourseInformation);
+  courseBlock.addEventListener("click", showCourseForm);
+  courseBlock.addEventListener("click", updateCurrentCourseObject);
+  courseBlock.addEventListener("click", showUpdateButton);
   timetableBody.append(courseBlock);
 
   hideCourseForm();
 }
 
-function updateCourseInformation() {
-  console.log(this);
+function updateCourse() {
+  const el = timetableBody.querySelector(`#${this.id}`);
+  let daySchedule;
+  for (const elementClass of el.classList) {
+    if (schedule[elementClass]) {
+      daySchedule = schedule[elementClass];
+      break;
+    }
+  }
+
+  const rowStart = el.style.gridRowStart;
+  const rowEnd = el.style.gridRowEnd;
+
+  for (let i = rowStart; i <= rowEnd; i++) {
+    daySchedule[i] = false;
+  }
+
+  // const backupEl = el.cloneNode(true);
+  // backupEl.addEventListener("click", showCourseForm);
+  // backupEl.addEventListener("click", updateCurrentCourseObject);
+  // backupEl.addEventListener("click", showUpdateButton);
+  // console.log(backupEl);
+  // el.remove();
+
+  try {
+    saveCourse();
+    el.remove();
+  } catch {
+    // timetableBody.append(backupEl);
+    for (let i = rowStart; i <= rowEnd; i++) {
+      daySchedule[i] = true;
+    }
+  } finally {
+    btnSaveCourseForm.classList.remove("hidden");
+    btnUpdateCourseForm.classList.add("hidden");
+    btnUpdateCourseForm.removeAttribute("id");
+    hideCourseForm();
+  }
+
+  // el.querySelector(".class-code").textContent = currentCourse.classCode;
+  // el.querySelector(".class-name").textContent = currentCourse.className;
+  // el.querySelector(".class-type").value = currentCourse.classType;
+  // el.querySelector(".class-time").textContent = toTimeString(currentCourse.startTime, currentCourse.endTime);
+  // el.querySelector(".location").textContent = currentCourse.location;
 }
+
+function showUpdateButton() {
+  btnSaveCourseForm.classList.add("hidden");
+  btnUpdateCourseForm.classList.remove("hidden");
+  btnUpdateCourseForm.setAttribute("id", this.id);
+}
+
+// function updateCourseInformation() {
+//   console.log(this);
+//   // this.showCourseForm();
+// }
 
 /******************************************************
  * ----------------------------------------------------
@@ -326,30 +396,34 @@ function createTimetableCell(classAttribute, othersObj) {
     divTag.style.gridColumn = othersObj.gridColumn;
   }
 
-  if (othersObj.cellColor !== undefined) {
+  if (othersObj.cellColor) {
     divTag.style.backgroundColor = othersObj.cellColor;
   }
 
-  if (othersObj.textContent !== undefined) {
+  if (othersObj.textContent) {
     divTag.textContent = othersObj.textContent;
   }
 
-  if (othersObj.classList !== undefined) {
+  if (othersObj.classList) {
     for (let i = 0; i < othersObj.classList.length; i++) {
       divTag.classList.add(othersObj.classList[i]);
     }
+  }
+
+  if (othersObj.id) {
+    divTag.setAttribute("id", othersObj.id);
   }
 
   return divTag;
 }
 
 function indexToCalendarTime(index, offset) {
-  const hour = index + offset + 1;
+  const hour = Number(index + offset + 1);
   return [hour <= 12 ? hour : hour - 12, hour < 12 ? "AM" : "PM"];
 }
 
 function calendarTimeToIndex(time, offset) {
-  const hour = time[1] === "AM" || time[0] === 12 ? time[0] : time[0] + 12;
+  const hour = time[1] === "AM" || Number(time[0]) === 12 ? Number(time[0]) : Number(time[0]) + 12;
   const index = hour - offset - 1;
   return index;
 }
@@ -357,48 +431,82 @@ function calendarTimeToIndex(time, offset) {
 function compareTime(startTime, endTime) {
   if (startTime.meridiem === "AM" && endTime.meridiem === "PM") return -1;
   if (startTime.meridiem === "PM" && endTime.meridiem === "AM") return 1;
-  // console.log(startTime.hour === endTime.hour && startTime.minute === endTime.minute && startTime.meridiem === endTime.meridiem);
   if (startTime.hour === 12 && endTime.hour !== 12) return -1;
   if (startTime.hour < endTime.hour) return -1;
   if (startTime.hour > endTime.hour) return 1;
   if (startTime.minute < endTime.minute) return -1;
   if (startTime.minute > endTime.minute) return 1;
 
-  // if (startTime.minute === endTime.minute && startTime.meridiem === endTime.meridiem) return 0;
-
   return 0;
 }
 
 function fillCourseBlock(el) {
   const classCodeEl = document.createElement("div");
-  classCodeEl.textContent = currentCourse.classCode.toUpperCase();
+  classCodeEl.textContent = currentCourse.classCode.toUpperCase().replace(/(\s+)/g, " ");
+  classCodeEl.classList += "class-code";
+
+  const classNameEl = document.createElement("div");
+  classNameEl.textContent = toTitleCase(currentCourse.className).replace(/(\s+)/g, " ");
+  classNameEl.classList += "class-name hidden";
 
   const classTypeEl = document.createElement("div");
-  classTypeEl.textContent = currentCourse.classType;
+  classTypeEl.textContent = currentCourse.classType.replace(/(\s+)/g, " ");
+  classTypeEl.classList += "class-type";
 
   const classTimeEl = document.createElement("div");
-  classTimeEl.textContent = `${currentCourse.startTime.hour}:${currentCourse.startTime.minute}${currentCourse.startTime.meridiem} - ${
-    currentCourse.endTime.hour
-  }:${("0" + currentCourse.endTime.minute).slice(-2)}${currentCourse.endTime.meridiem}`;
+  classTimeEl.textContent = toTimeString(currentCourse.startTime, currentCourse.endTime);
+  classTimeEl.classList += "class-time";
 
   const locationEl = document.createElement("div");
-  locationEl.textContent = currentCourse.location.toUpperCase();
+  locationEl.textContent = currentCourse.location.toUpperCase().replace(/(\s+)/g, " ");
+  locationEl.classList += "location";
 
   el.append(classCodeEl);
+  el.append(classNameEl);
   el.append(classTypeEl);
   el.append(classTimeEl);
   el.append(locationEl);
 }
 
 function toTitleCase(str) {
-  let newStr = "";
-  const strArr = str.split(" ");
-  for (const word of strArr) {
-    newStr += word.toLowerCase().charAt(0).toUpperCase();
+  let newStr = str.toLowerCase();
+  const strArr = newStr.split(" ");
+  for (let i = 0; i < strArr.length; i++) {
+    strArr[i] = strArr[i].charAt(0).toUpperCase() + strArr[i].slice(1);
   }
-  return newStr;
+  return strArr.join(" ");
 }
 
-// function createDivElementOnGrid(classAttribute, gridColumn) {}
+function rowToTime(row) {
+  const index = Math.trunc((row - 1) / 4);
+  const minute = ((row - 1) % 4) * 15;
+  const meridiem = hourList[index][1];
 
-// function createDivElementOnGrid(classAttribute, gridRow, gridColumn) {}
+  return [index, minute, meridiem];
+}
+
+function toTimeString(startTime, endTime) {
+  return `${startTime.hour}:${("0" + startTime.minute).slice(-2)}${startTime.meridiem} - ${endTime.hour}:${("0" + endTime.minute).slice(-2)}${
+    endTime.meridiem
+  }`;
+}
+
+function timeToRows(startTime, endTime) {
+  const indexStart = calendarTimeToIndex([startTime.hour, startTime.meridiem], timeOffSet);
+  const indexEnd = calendarTimeToIndex([endTime.hour, endTime.meridiem], timeOffSet);
+
+  const rowStart = indexStart * 4 + (Math.trunc(startTime.minute / 15) + 1);
+  const rowEnd = indexEnd * 4 + (Math.ceil(endTime.minute / 15) + 1);
+  return [rowStart, rowEnd];
+}
+
+function timeStringToObject(timeStr) {
+  if (!timeStr) return undefined;
+  const timeTokens = timeStr.split(":");
+  console.log(timeTokens[0]);
+  console.log(timeTokens[1]);
+  const minute = Number(timeTokens[1].slice(0, 2));
+  const meridiem = timeTokens[1].slice(-2);
+  const hourIndex = calendarTimeToIndex([timeTokens[0], meridiem], timeOffSet);
+  return [hourIndex, minute, meridiem];
+}

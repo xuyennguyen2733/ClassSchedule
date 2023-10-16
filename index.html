@@ -5,368 +5,79 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <link rel="stylesheet" href="css/general.css" />
-    <link rel="stylesheet" href="css/library.css" />
-    <link rel="stylesheet" href="css/queries.css" />
-
-    <title>Class Schedule - Summer 2022</title>
+    <link rel="stylesheet" href="style.css" />
+    <title>Document</title>
   </head>
   <body>
-    <header class="header">
-      <h1 class="semester">Summer 2022</h1>
-    </header>
-    <main>
-      <section class="main-section">
-        <div class="width--75 timetable-grid timetable-container">
-          <container class="corner-container"></container>
-          <container class="weekday-container"></container>
-          <container class="hour-container">
-            <div class="upper-shadow"></div>
-            <div class="lower-shadow"></div>
-          </container>
-          <container class="course-container">
-            <div class="upper-shadow"></div>
-            <div class="course-info">
-              <span class="monday course-block">
-                <div class="courseName">MATH 2700</div>
-                <div class="courseType">Lecture</div>
-                <div><span class="startTime">10:00AM</span> - <span class="endTime">11:00AM</span></div>
-                <div class="location">JFB B-1</div>
-              </span>
-              <span class="course-block">
-                MATH 2700<br />
-                Lecture<br />
-                10:00AM - 11:00AM<br />
-                JFB B-1<br />
-              </span>
-              <span class="course-block">
-                MATH 2700<br />
-                Lecture<br />
-                10:00AM - 11:00AM<br />
-                JFB B-1<br />
-              </span>
-              <span class="course-block">
-                MATH 2700<br />
-                Lecture<br />
-                10:00AM - 11:00AM<br />
-                JFB B-1<br />
-              </span>
-            </div>
-
-            <div class="lower-shadow"></div>
-            <div class="course-name">
-              <span>Math 2700: Linear Algebra</span>
-            </div>
-          </container>
+    <div class="timetable">
+      <div class="timetable-head grid--1-6 font--golden-bold down-right-shadow"></div>
+      <div class="timetable-side grid--10-1 font--golden-bold down-right-shadow"></div>
+      <div class="timetable-body grid--40-5 down-right-shadow"></div>
+    </div>
+    <div class="course-form-container fixed-center hidden">
+      <form class="course-form">
+        <div class="class-code">
+          <label for="class-code">Class Code</label>
+          <input type="text" name="class-code" id="class-code" placeholder="CS 3505" required />
         </div>
-        <div class="width--75 timetable-grid timetable">
-          <div class="corner"><div>Time</div></div>
-          <div class="weekday">
-            <div>Monday</div>
-            <div>Tuesday</div>
-            <div>Wednesday</div>
-            <div>Thursday</div>
-            <div>Friday</div>
+        <div class="class-name">
+          <label for="class-name">Class Name</label>
+          <input type="text" name="class-name" id="class-name" placeholder="Software Practice II" required />
+        </div>
+        <div class="class-type">
+          <div>
+            <label for="class-type">Type</label>
           </div>
-          <div class="hour">
-            <div>8 AM</div>
-            <div>9 AM</div>
-            <div>10 AM</div>
-            <div>11 AM</div>
-            <div>12 AM</div>
-            <div>1 PM</div>
-            <div>2 PM</div>
-            <div>3 PM</div>
-            <div>4 PM</div>
-            <div>5 PM</div>
-            <div class="online">Online</div>
-          </div>
-          <div class="course">
-            <div class="mon-col">
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div class="course-footer">
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-              </div>
-            </div>
-            <div class="tue-col">
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div class="course-footer">
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-              </div>
-            </div>
-            <div class="wed-col">
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div class="course-footer">
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-              </div>
-            </div>
-            <div class="thu-col">
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div class="course-footer">
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-              </div>
-            </div>
-            <div class="fri-col">
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div class="course-footer">
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-              </div>
-            </div>
+          <div>
+            <select name="class-type" id="class-type">
+              <option value="Lecture">Lecture</option>
+              <option value="Lab">Lab</option>
+              <option value="Online">Online</option>
+              <option value="TBA">TBA</option>
+            </select>
           </div>
         </div>
-      </section>
-    </main>
-    <footer>
-      <div>This is the footer</div>
-    </footer>
-    <div class="flex-center margin--5 course-form">
-      <form id="course-form">
-        <div>
-          <label for="course-name">Course Name:</label>
-          <input type="text" id="course-name" name="course-name" placeholder="CS 3505" />
+        <div class="location">
+          <label for="location">Location</label>
+          <input type="text" name="location" id="location" placeholder="WEB L104" required />
         </div>
-        <div>
-          <label for="course-type">Course Type:</label>
-          <input type="text" id="course-type" name="course-type" placeholder="Lecture" />
+        <div class="weekday">
+          <div>
+            <label for="weekday">Day</label>
+          </div>
+          <div>
+            <select name="weekday" id="weekday"></select>
+          </div>
         </div>
-        <div>
-          <label for="start-time">Start Time:</label>
-
-          <input type="text" id="start-time" name="start-time" data-format="h:mm A" data-template="hh : mm A" />
-          <!-- <input type="number" id="start-time" name="start-time" placeholder="8" /> -->
-          <!-- <select name="start-time" id="start-time"></select> -->
-          <!-- <select name="AM-PM" id="start-time--AMPM">
-            <option value="AM">AM</option>
-            <option value="PM">PM</option>
-          </select> -->
+        <div class="start-time">
+          <div>
+            <label for="start-time">Start Time</label>
+          </div>
+          <div>
+            <select name="hour" id="hour"></select>
+            <select name="minute" id="minute"></select>
+            <label name="meridiem" id="meridiem">AM</label>
+          </div>
         </div>
-        <div>
-          <label for="end-time">End Time:</label>
-          <input type="text" id="end-time" name="end-time" data-format="h:mm A" data-template="hh : mm A" />
-          <!-- <input type="number" id="end-time" name="end-time" placeholder="9" />
-          <select name="AM-PM" id="end-time--AMPM">
-            <option value="AM">AM</option>
-            <option value="PM">PM</option>
-          </select> -->
+        <div class="course-form-buttons flex-right-center">
+          <button class="button btn--update hidden" type="button">Save</button>
+          <button class="button btn--save" type="button">Save</button>
+          <button class="button btn--close" type="button">Cancel</button>
         </div>
-        <div>
-          <label for="location">Location:</label>
-          <input type="text" id="location" name="location" placeholder="Zoom" />
+        <div class="end-time">
+          <div>
+            <label for="end-time">End Time</label>
+          </div>
+          <div>
+            <select name="hour" id="hour"></select>
+            <select name="minute" id="minute"></select>
+            <label name="meridiem" id="meridiem">AM</label>
+          </div>
         </div>
       </form>
-      <button class="button btn--form save-course">Save</button>
     </div>
-    <script type="text/javascript" src="js/datetime.js"></script>
-    <script type="text/javascript" src="js/script.js"></script>
+    <div class="overlay fixed-center hidden"></div>
+    <script src="init.js"></script>
+    <script src="schedule-controller.js"></script>
   </body>
 </html>
